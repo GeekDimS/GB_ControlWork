@@ -1,51 +1,53 @@
-﻿string[] inputArr1 = { "hello", "2", "world", ":-)" };
+﻿
+//Входные тестовые массивы строк
+string[] inputArr1 = { "hello", "2", "world", ":-)" };
 string[] inputArr2 = { "1234", "1567", "-2", "computer science" };
 string[] inputArr3 = { "Russia", "Denmark", "Kazan" };
 string[] inputArr4 = { "" };
 
-string[] inputArr = inputArr4;
-System.Console.WriteLine("[" + String.Join(", ", BuildOutArr(GetInfo(inputArr), inputArr)) + "]");
+string[] inputArr = inputArr1; //Массив для быстрой смены в одном месте тестируемого входного массива
+System.Console.WriteLine("[" + String.Join(", ", BuildOutArr(GetInfo(inputArr), inputArr)) + "]"); //Вывод
 
-info GetInfo(string[] inpArr)
+info GetInfo(string[] inpArr) //Функция, которая анализирует входной массив строк и на выходе выдаёт заполненную структуру
 {
-    int len = inpArr.Length;
-    info infoInputArr = new info(len);
-    for (int i = 0; i < len; i++)
+    int len = inpArr.Length; // Размер входного массива (количество строк)
+    info infoInputArr = new info(len); //создание экземпляра структуры
+    for (int i = 0; i < len; i++) //цикл обхода массива
     {
-        if (inpArr[i].Length <= 3)
+        if (inpArr[i].Length <= 3) //Если длина очередной строки меньше или равна 3-х
             {
-                infoInputArr.infoArr[i] = 1;
-                infoInputArr.count += 1;
+                infoInputArr.infoArr[i] = 1; // то в выходной массив структуры заносим 1
+                infoInputArr.count += 1; // и инкреминируем счётчик "нужных" строк, 
             }
         else
-            infoInputArr.infoArr[i] = 0;
+            infoInputArr.infoArr[i] = 0; //иначе заносим ноль
     }
-    return infoInputArr;
+    return infoInputArr; // Выдаваемый результат в виде структуры
 }
 
-string[] BuildOutArr(info inf, string[] inpArr)
+string[] BuildOutArr(info inf, string[] inpArr) // Функция обработки изначального массива с учётом предварительной информации, сохранённой с структуре
 {
-    int len = inpArr.Length;
-    string[] outArr = new string[inf.count];
-    for (int i = 0, j = 0; i < len; i++)
+    int len = inpArr.Length; // Размер входного массива
+    string[] outArr = new string[inf.count]; // Создание результирующего  массива строк размером, равным посчитанному количеству строк, выполняющих условия задачи
+    for (int i = 0, j = 0; i < len; i++) // i - индекс по входному и информационному массиву, j - счётчик по выходному массиву
     {
-        if (inf.infoArr[i] == 1)
+        if (inf.infoArr[i] == 1) // Если очередной элемент массива информации равен 1
         {
-            outArr[j] = inpArr[i];
-            j += 1;
+            outArr[j] = inpArr[i]; // то добавляем строку входного массива в результирующий массив 
+            j += 1; // и передвигаем указатель на текущий элемент выходного массива
         }
     }
-    return outArr;
+    return outArr; // Вывод результата в виде массива строк
 }
 
 struct info //Структура для хранения информации о входном массиве
 {
-    public int[] infoArr;
-    public int count;
+    public int[] infoArr; // Поле массива целых чисел
+    public int count; // Поле счётчика общего количества строк, удовлеворяющих условию задачи
 
-    public info(int length)
+    public info(int length) // Коструктору требуется указание размера массива 
     {
-        this.infoArr = new int[length];
-        this.count = 0;
+        this.infoArr = new int[length]; // Создание массива требуемого размера
+        this.count = 0; // Инициализация счётчика
     }
 }
